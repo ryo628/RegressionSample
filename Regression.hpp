@@ -10,8 +10,8 @@ private:
 	double a;						// Regression coefficient
 	double b;						// Regression intercept
 	double R2;						// contribution rate
-	double xmean;					// TODO: mean
-	double ymean;					// TODO: mean
+	double xmean;					// mean
+	double ymean;					// mean
 	int samples;					// sample num
 	std::vector<Food> data;			// input data
 	std::string labels;				// labels( calorie )
@@ -29,6 +29,9 @@ public:
 	/* method */
 	void compMean();		// calculate xmean and ymean
 	void doRegression();	// regression
+	
+	// calculate deviation
+	double deviation( std::function<double(int)> f, int start, int end );
 };
 
 #endif

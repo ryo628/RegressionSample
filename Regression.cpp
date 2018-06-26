@@ -37,8 +37,28 @@ void Regression::compMean()
 	this->ymean = ysum / this->samples;
 }
 
+/* calc deviation */
+double Regression::deviation( std::function<double(int)> f, int start, int end )
+{
+	double sum = 0;
+
+	for( int i = start; i < end; i++ )
+	{
+		sum += f(i);
+	}
+
+	return sum;
+}
+
 /* do regression */
 void Regression::doRegression()
 {
 	//
+	double Sxx = this->deviation(
+						[&](int i){
+							return this->data[i].getCarbon() - this->xmean;
+							},
+							0,
+							this->samples -1
+	);
 }
