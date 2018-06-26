@@ -57,6 +57,7 @@ int main( int argc, char** argv )
 
 	std::cout << "a : " << r.getA() << std::endl;
 	std::cout << "b : " << r.getB() << std::endl;
+	std::cout << "R2 : " << r.getR2() << std::endl;
 
 	return 0;
 }
