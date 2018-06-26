@@ -7,7 +7,7 @@ else
 endif
 LIBS      =
 INCLUDE   = -I./include
-TARGET    = ./bin/kadai3.out
+TARGET    = ./bin/kadai3
 SRCDIR    = ./source
 ifeq "$(strip $(SRCDIR))" ""
   SRCDIR  = .
