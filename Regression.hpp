@@ -2,6 +2,7 @@
 #define REGRESSION_H
 
 #include <vector>
+#include <functional>
 #include "Food.h"
 
 class Regression
@@ -29,7 +30,7 @@ public:
 	/* method */
 	void compMean();		// calculate xmean and ymean
 	void doRegression();	// regression
-	
+
 	// calculate deviation
 	double deviation( std::function<double(int)> f, int start, int end );
 };
