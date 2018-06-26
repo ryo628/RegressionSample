@@ -51,5 +51,12 @@ int main( int argc, char** argv )
 		);
 	}
 
+	// regression
+	Regression r = Regression( foods, "calorie" );
+	r.doRegression();
+
+	std::cout << "a : " << r.getA() << std::endl;
+	std::cout << "b : " << r.getB() << std::endl;
+
 	return 0;
 }

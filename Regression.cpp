@@ -53,12 +53,36 @@ double Regression::deviation( std::function<double(int)> f, int start, int end )
 /* do regression */
 void Regression::doRegression()
 {
-	//
+	// calc Sxx, Syy and Sxy
 	double Sxx = this->deviation(
-						[&](int i){
-							return this->data[i].getCarbon() - this->xmean;
-							},
-							0,
-							this->samples -1
+						[&](int i)
+						{
+							return ( this->data[i].getCarbon() - this->xmean )*
+									( this->data[i].getCarbon() - this->xmean );
+						},
+						0,
+						this->samples -1
 	);
+	double Syy = this->deviation(
+						[&](int i)
+						{
+							return ( this->data[i].getCalorie() - this->ymean )*
+									( this->data[i].getCalorie() - this->ymean );
+						},
+						0,
+						this->samples -1
+	);
+	double Sxy = this->deviation(
+						[&](int i)
+						{
+							return ( this->data[i].getCarbon() - this->xmean )*
+									( this->data[i].getCalorie() - this->ymean );
+						},
+						0,
+						this->samples -1
+	);
+
+	// calc a, b
+	this->a = Sxy / Sxx;
+	this->b = this->ymean - this->a*this->xmean;
 }
