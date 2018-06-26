@@ -50,6 +50,15 @@ double Regression::deviation( std::function<double(int)> f, int start, int end )
 	return sum;
 }
 
+void Regression::calcPredicted()
+{
+	//
+	for( int i = 0; i < this->samples; i++ )
+	{
+		this->predicted.push_back( this->a*this->data[i].getCarbon() + this->b );
+	}
+}
+
 /* do regression */
 void Regression::doRegression()
 {
@@ -61,7 +70,7 @@ void Regression::doRegression()
 									( this->data[i].getCarbon() - this->xmean );
 						},
 						0,
-						this->samples -1
+						this->samples
 	);
 	double Syy = this->deviation(
 						[&](int i)
@@ -70,7 +79,7 @@ void Regression::doRegression()
 									( this->data[i].getCalorie() - this->ymean );
 						},
 						0,
-						this->samples -1
+						this->samples
 	);
 	double Sxy = this->deviation(
 						[&](int i)
@@ -79,10 +88,13 @@ void Regression::doRegression()
 									( this->data[i].getCalorie() - this->ymean );
 						},
 						0,
-						this->samples -1
+						this->samples
 	);
 
 	// calc a, b
 	this->a = Sxy / Sxx;
 	this->b = this->ymean - this->a*this->xmean;
+
+	// calc predicted
+	this->calcPredicted();
 }

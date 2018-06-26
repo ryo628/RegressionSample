@@ -13,22 +13,22 @@ Food::Food( std::string s, double d1, double d2, double d3 )
 	this->calorie	= d3;
 }
 
-Food::std::string getName()
+std::string Food::getName()
 {
 	return this->name;
 }
 
-double getCarbon()
+double Food::getCarbon()
 {
 	return this->carbon;
 }
 
-double getFat()
+double Food::getFat()
 {
 	return this->fat;
 }
 
-double getCalorie()
+double Food::getCalorie()
 {
 	return this->calorie;
 }

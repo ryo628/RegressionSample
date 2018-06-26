@@ -1,14 +1,35 @@
-kadai3:	kadai3.o Food.o Regression.o
-	g++ -o kadai3 kadai3.o Food.o Regression.o
+COMPILER  = g++
+CFLAGS    = -Wall -std=c++14
+ifeq "$(shell getconf LONG_BIT)" "64"
+  LDFLAGS =
+else
+  LDFLAGS =
+endif
+LIBS      =
+INCLUDE   = -I./include
+TARGET    = ./bin/kadai3.out
+SRCDIR    = ./source
+ifeq "$(strip $(SRCDIR))" ""
+  SRCDIR  = .
+endif
+SOURCES   = $(wildcard $(SRCDIR)/*.cpp)
+OBJDIR    = ./obj
+ifeq "$(strip $(OBJDIR))" ""
+  OBJDIR  = .
+endif
+OBJECTS   = $(addprefix $(OBJDIR)/, $(notdir $(SOURCES:.cpp=.o)))
+DEPENDS   = $(OBJECTS:.o=.d)
 
-kadai3.o: kadai3.cpp
-	g++ -c kadai3.cpp
+$(TARGET): $(OBJECTS) $(LIBS)
+	$(COMPILER) -o $@ $^ $(LDFLAGS)
 
-Food.o: Food.cpp
-	g++ -c Food.cpp
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp
+	-mkdir -p $(OBJDIR)
+	$(COMPILER) $(CFLAGS) $(INCLUDE) -o $@ -c $<
 
-Regression.o: Regression.cpp
-	g++ -c Regression.cpp
+all: clean $(TARGET)
 
 clean:
-	rm -f *.o kadai3
+	-rm -f $(OBJECTS) $(DEPENDS) $(TARGET)
+
+-include $(DEPENDS)

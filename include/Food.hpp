@@ -13,7 +13,7 @@ private:
 
 public:
 	/* constructor */
-	Food(){}
+	Food();
 	Food( std::string s, double d1, double d2, double d3 );
 
 	/* accessor */
