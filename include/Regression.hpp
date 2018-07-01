@@ -29,7 +29,7 @@ public:
 
 	/* method */
 	void compMean();		// calculate xmean and ymean
-	void calcPredicted();	// calc Predicted value
+	double calcPredicted( Food f );	// calc Predicted value
 	void doRegression();	// regression
 
 	// calculate deviation

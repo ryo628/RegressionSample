@@ -11,8 +11,11 @@ Regression::Regression( std::vector<Food> _data, std::string _labels )
 	this->data = _data;
 	this->labels = _labels;
 
-	// 
+	// put size
 	this->samples = this->data.size();
+
+	// calc means
+	this->compMean();
 }
 
 /* accessor */
@@ -50,13 +53,10 @@ double Regression::deviation( std::function<double(int)> f, int start, int end )
 	return sum;
 }
 
-void Regression::calcPredicted()
+double Regression::calcPredicted( Food f )
 {
-	//
-	for( int i = 0; i < this->samples; i++ )
-	{
-		this->predicted.push_back( this->a*this->data[i].getCarbon() + this->b );
-	}
+	// predict Carbon
+	return this->a * f.getCarbon() + this->b;
 }
 
 /* do regression */
@@ -96,5 +96,5 @@ void Regression::doRegression()
 	this->b = this->ymean - this->a*this->xmean;
 
 	// calc predicted
-	this->calcPredicted();
+	//this->calcPredicted()
 }

@@ -3,6 +3,8 @@ kadai3.cpp
 name : Ryotaro SUMI
 number : 183342
 TODO
+
+2018-07-02 08:33:03 
 ******************************************************/
 
 #include <iostream>
@@ -58,6 +60,11 @@ int main( int argc, char** argv )
 	std::cout << "a : " << r.getA() << std::endl;
 	std::cout << "b : " << r.getB() << std::endl;
 	std::cout << "R2 : " << r.getR2() << std::endl;
+
+	// predict
+	// [A] さくらんぼ（炭水化物=15.2, たんぱく質=1.0, GI=37, 脂質=0.2）
+	Food a = Food( "さくらんぼ", 15.2, 0.2, 0 );
+	std::cout << "[A] " << a.getName() << " : " << r.calcPredicted( a ) << std::endl;
 
 	return 0;
 }
