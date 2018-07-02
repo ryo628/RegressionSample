@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <functional>
-#include <iostream>
 #include "Food.hpp"
 
 class Regression
