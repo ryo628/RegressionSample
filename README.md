@@ -1,7 +1,7 @@
 ## 単回帰させるやつ
 made by Ryotaro Sumi  
   
-Predict calorie from Carbon or Fat or GI  
+Predict calorie from some value  
   
 ## How to Use
 `/bin/kadai3 food.csv [flag]`  
@@ -9,12 +9,14 @@ Predict calorie from Carbon or Fat or GI
 ### flag
 C : Carbon  
 F : Fat  
-
+G : GI  
+P : Protain  
+  
 ## compile
   
 ### make
-`> make`
+`> make` compile difference file  
   
 ### compile all
   
-`> make all`
+`> make all` compile all files  
