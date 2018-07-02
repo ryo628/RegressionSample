@@ -64,6 +64,8 @@ int main( int argc, char** argv )
 		foods.push_back( Food( strvec[0],
 							   std::stod( strvec[2] ),
 							   std::stod( strvec[4] ),
+							   std::stod( strvec[1] ),
+							   std::stod( strvec[5] ),
 							   std::stod( strvec[3] )
 							 )
 		);
@@ -83,20 +85,20 @@ int main( int argc, char** argv )
 	r.doRegression();
 
 	// result
-	std::cout << flags[flag] << std::endl;
-	std::cout << "a : " << r.getA() << std::endl;
-	std::cout << "b : " << r.getB() << std::endl;
-	std::cout << "R2 : " << r.getR2() << std::endl;
+	std::cout << "Calorie → " << flags[flag] << std::endl;
+	std::cout << "a : " << r.getA() << "kcal" << std::endl;
+	std::cout << "b : " << r.getB() << "kcal" << std::endl;
+	std::cout << "R2 : " << r.getR2() << "kcal" << std::endl;
 
 	// predict
 	// [A] さくらんぼ（炭水化物=15.2, たんぱく質=1.0, GI=37, 脂質=0.2）
-	Food a = Food( "さくらんぼ", 15.2, 0.2, 0 );
+	Food a = Food( "さくらんぼ", 15.2, 0.2, 37, 1.0, 0 );
 	std::cout << "[A] " << a.getName() << " : " << r.calcPredicted( a ) << std::endl;
 	// [B] バジル（炭水化物=4.0, たんぱく質=2.0, GI=5, 脂質=0.6）
-	Food b = Food( "バジル", 4.0, 0.6, 0 );
+	Food b = Food( "バジル", 4.0, 0.6, 5, 2.0, 0 );
 	std::cout << "[B] " << b.getName() << " : " << r.calcPredicted( b ) << std::endl;
 	// [C] 豆乳（炭水化物=3.1, たんぱく質=3.6,GI=23, 脂質=2.0）
-	Food c = Food( "豆乳", 3.1, 0.2, 0 );
+	Food c = Food( "豆乳", 3.1, 0.2, 23, 3.6, 0 );
 	std::cout << "[C] " << c.getName() << " : " << r.calcPredicted( c ) << std::endl;
 
 	return 0;
