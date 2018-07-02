@@ -28,9 +28,9 @@ public:
 	double getR2();
 
 	/* method */
-	void compMean();		// calculate xmean and ymean
-	double calcPredicted( Food f );	// calc Predicted value
-	void doRegression();	// regression
+	void compMean();						// calculate xmean and ymean
+	double calcPredicted( Food f );			// calc Predicted value
+	void doRegression( std::string );		// regression
 
 	// calculate deviation
 	double deviation( std::function<double(int)> f, int start, int end );

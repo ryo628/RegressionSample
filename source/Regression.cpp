@@ -60,35 +60,39 @@ double Regression::calcPredicted( Food f )
 }
 
 /* do regression */
-void Regression::doRegression()
+void Regression::doRegression( std::string _s )
 {
-	// calc Sxx, Syy and Sxy
+	// switch getter
+	double ( Food::*getter )();
+	if( _s == "Carbon" )
+		getter = &Food::getCarbon;
+	else if( _s == "Fat" )
+		getter = &Food::getFat;
+	else if( _s == "GI" )
+		getter = &Food::getGI;
+	else if ( _s == "Protain" )
+		getter = &Food::getProtain;
+	else
+		getter = &Food::getCarbon;
+
+	// calc Sxx and Sxy
 	double Sxx = this->deviation(
-						[&](int i)
-						{
-							return ( this->data[i].getCarbon() - this->xmean )*
-									( this->data[i].getCarbon() - this->xmean );
-						},
-						0,
-						this->samples
-	);
-	double Syy = this->deviation(
-						[&](int i)
-						{
-							return ( this->data[i].getCalorie() - this->ymean )*
-									( this->data[i].getCalorie() - this->ymean );
-						},
-						0,
-						this->samples
+					[&](int i)
+					{
+						return ( ( this->data[i].*getter )() - this->xmean )*
+								( ( this->data[i].*getter )() - this->xmean );
+					},
+					0,
+					this->samples
 	);
 	double Sxy = this->deviation(
-						[&](int i)
-						{
-							return ( this->data[i].getCarbon() - this->xmean )*
-									( this->data[i].getCalorie() - this->ymean );
-						},
-						0,
-						this->samples
+					[&](int i)
+					{
+						return ( ( this->data[i].*getter )() - this->xmean )*
+								( this->data[i].getCalorie() - this->ymean );
+					},
+					0,
+					this->samples
 	);
 
 	// calc a, b
@@ -106,6 +110,15 @@ void Regression::doRegression()
 	pMean = pMean / (double)this->predicted.size();
 
 	// calc Re denominator
+	double d1 = this->deviation(
+						[&](int i)
+						{
+							return ( this->data[i].getCalorie() - this->ymean )*
+									( this->data[i].getCalorie() - this->ymean );
+						},
+						0,
+						this->samples
+	);
 	double d2 = this->deviation(
 						[&](int i)
 						{
@@ -124,5 +137,5 @@ void Regression::doRegression()
 						0,
 						this->samples
 	);
-	this->R2 = ( n1 * n1 ) / ( Syy * d2 );
+	this->R2 = ( n1 * n1 ) / ( d1 * d2 );
 }

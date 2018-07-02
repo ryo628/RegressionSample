@@ -34,9 +34,13 @@ std::vector<std::string> split( std::string& input, char delimiter )
 
 int main( int argc, char** argv )
 {
-	std::string line;			// tmp string
-	std::vector<Food> foods;	// food list
-	std::map<char, std::string> flags;
+	std::string line;					// tmp string
+	std::vector<Food> foods;			// food list
+	std::map<char, std::string> flags;	// flags list
+	flags['G'] = "GI";
+	flags['C'] = "Carbon";
+	flags['F'] = "Fat";
+	flags['P'] = "Protain";
 
 	// arg check
 	if( argc != 3 )
@@ -45,16 +49,9 @@ int main( int argc, char** argv )
 		return -1;
 	}
 
-	// csv header read
+	// data read
 	std::ifstream ifs( argv[1] );
 	getline( ifs, line );
-	std::vector<std::string> strvec = split( line, ',' );
-	flags['G'] = strvec[1];
-	flags['C'] = strvec[2];
-	flags['F'] = strvec[4];
-	flags['P'] = strvec[5];
-
-	// data read
 	while( getline(ifs, line) )
 	{
 		// split read line
@@ -82,7 +79,7 @@ int main( int argc, char** argv )
 
 	// regression
 	Regression r = Regression( foods, "calorie" );
-	r.doRegression();
+	r.doRegression( flags[flag] );
 
 	// result
 	std::cout << "Calorie → " << flags[flag] << std::endl;
@@ -93,13 +90,13 @@ int main( int argc, char** argv )
 	// predict
 	// [A] さくらんぼ（炭水化物=15.2, たんぱく質=1.0, GI=37, 脂質=0.2）
 	Food a = Food( "さくらんぼ", 15.2, 0.2, 37, 1.0, 0 );
-	std::cout << "[A] " << a.getName() << " : " << r.calcPredicted( a ) << "kcal" << std::endl;
+	std::cout << "[A] " << a.getName() << " : " << r.calcPredicted( a ) << " kcal" << std::endl;
 	// [B] バジル（炭水化物=4.0, たんぱく質=2.0, GI=5, 脂質=0.6）
 	Food b = Food( "バジル", 4.0, 0.6, 5, 2.0, 0 );
-	std::cout << "[B] " << b.getName() << " : " << r.calcPredicted( b ) << "kcal" << std::endl;
+	std::cout << "[B] " << b.getName() << " : " << r.calcPredicted( b ) << " kcal" << std::endl;
 	// [C] 豆乳（炭水化物=3.1, たんぱく質=3.6,GI=23, 脂質=2.0）
 	Food c = Food( "豆乳", 3.1, 0.2, 23, 3.6, 0 );
-	std::cout << "[C] " << c.getName() << " : " << r.calcPredicted( c ) << "kcal" << std::endl;
+	std::cout << "[C] " << c.getName() << " : " << r.calcPredicted( c ) << " kcal" << std::endl;
 
 	return 0;
 }
