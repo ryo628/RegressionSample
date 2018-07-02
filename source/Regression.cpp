@@ -19,6 +19,7 @@ Regression::Regression( std::vector<Food> _data, std::string _labels )
 double Regression::getA(){ return this->a; }
 double Regression::getB(){ return this->b; }
 double Regression::getR2(){ return this->R2; }
+std::string Regression::getLabels(){ return this->labels; }
 
 /* calc xmean and ymean */
 void Regression::compMean( double (Food::*getter)() )

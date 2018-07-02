@@ -26,6 +26,7 @@ public:
 	double getA();
 	double getB();
 	double getR2();
+	std::string getLabels();
 
 	/* method */
 	void compMean( double (Food::*getter)() );	// calculate xmean and ymean

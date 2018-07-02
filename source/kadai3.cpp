@@ -82,7 +82,7 @@ int main( int argc, char** argv )
 	r.doRegression( flagName );
 
 	// result
-	std::cout << "Calorie → " << flags[flag] << std::endl;
+	std::cout << flagName << " → " << r.getLabels() << std::endl;
 	std::cout << "a : " << r.getA() << std::endl;
 	std::cout << "b : " << r.getB() << std::endl;
 	std::cout << "R2 : " << r.getR2() << std::endl;
