@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <functional>
+#include <iostream>
 #include "Food.hpp"
 
 class Regression
@@ -28,12 +29,13 @@ public:
 	double getR2();
 
 	/* method */
-	void compMean();						// calculate xmean and ymean
-	double calcPredicted( Food f );			// calc Predicted value
-	void doRegression( std::string );		// regression
+	void compMean( double (Food::*getter)() );	// calculate xmean and ymean
+	void doRegression( std::string );			// regression
 
 	// calculate deviation
 	double deviation( std::function<double(int)> f, int start, int end );
+	// predict from a, b
+	double calcPredicted( Food f, std::string _s );
 };
 
 #endif

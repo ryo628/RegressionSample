@@ -13,9 +13,6 @@ Regression::Regression( std::vector<Food> _data, std::string _labels )
 
 	// put size
 	this->samples = this->data.size();
-
-	// calc means
-	this->compMean();
 }
 
 /* accessor */
@@ -24,19 +21,20 @@ double Regression::getB(){ return this->b; }
 double Regression::getR2(){ return this->R2; }
 
 /* calc xmean and ymean */
-void Regression::compMean()
+void Regression::compMean( double (Food::*getter)() )
 {
 	double xsum = 0;
 	double ysum = 0;
 
 	// sum loop
-	for( auto d : this->data )
+	for( Food d : this->data )
 	{
-		xsum += d.getCarbon();
+		xsum += (d.*getter)();
 		ysum += d.getCalorie();
 	}
 
-	this->xmean = xsum / this->samples;
+	// comp mean
+	this->xmean = xsum /  this->samples;
 	this->ymean = ysum / this->samples;
 }
 
@@ -53,11 +51,22 @@ double Regression::deviation( std::function<double(int)> f, int start, int end )
 	return sum;
 }
 
-double Regression::calcPredicted( Food f )
+/* predict Food Calorie */
+double Regression::calcPredicted( Food f, std::string _s )
 {
-	// predict Carbon
-	return this->a * f.getCarbon() + this->b;
+	// switch predict
+	if( _s == "Carbon" )
+		return this->a * f.getCarbon() + this->b;
+	else if( _s == "Fat" )
+		return this->a * f.getFat() + this->b;
+	else if( _s == "GI" )
+		return this->a * f.getGI() + this->b;
+	else if ( _s == "Protain" )
+		return this->a * f.getProtain() + this->b;
+	else
+		return this->a * f.getCarbon() + this->b;
 }
+
 
 /* do regression */
 void Regression::doRegression( std::string _s )
@@ -74,6 +83,9 @@ void Regression::doRegression( std::string _s )
 		getter = &Food::getProtain;
 	else
 		getter = &Food::getCarbon;
+
+	// calc means
+	this->compMean( getter );
 
 	// calc Sxx and Sxy
 	double Sxx = this->deviation(
@@ -103,13 +115,16 @@ void Regression::doRegression( std::string _s )
 	// calc predict mean
 	for( int i; i < this->samples; i++ )
 	{
-		this->predicted.push_back( this->calcPredicted( this->data[i] ) );
+		// predict input data
+		this->predicted.push_back(
+			this->a * (this->data[i].*getter)() + this->b
+		);
 	}
 	double pMean = 0;
 	for( double d : this->predicted ) pMean += d;
 	pMean = pMean / (double)this->predicted.size();
 
-	// calc Re denominator
+	// calc R2 denominator
 	double d1 = this->deviation(
 						[&](int i)
 						{
