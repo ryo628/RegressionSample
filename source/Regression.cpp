@@ -95,6 +95,34 @@ void Regression::doRegression()
 	this->a = Sxy / Sxx;
 	this->b = this->ymean - this->a*this->xmean;
 
-	// calc predicted
-	//this->calcPredicted()
+	/* calc R2 */
+	// calc predict mean
+	for( int i; i < this->samples; i++ )
+	{
+		this->predicted.push_back( this->calcPredicted( this->data[i] ) );
+	}
+	double pMean = 0;
+	for( double d : this->predicted ) pMean += d;
+	pMean = pMean / (double)this->predicted.size();
+
+	// calc Re denominator
+	double d2 = this->deviation(
+						[&](int i)
+						{
+							return ( this->predicted[i] - pMean )*
+									( this->predicted[i] - pMean );
+						},
+						0,
+						this->samples
+	);
+	double n1 = this->deviation(
+						[&](int i)
+						{
+							return ( this->data[i].getCalorie() - this->ymean )*
+									( this->predicted[i] - pMean );
+						},
+						0,
+						this->samples
+	);
+	this->R2 = ( n1 * n1 ) / ( Syy * d2 );
 }
